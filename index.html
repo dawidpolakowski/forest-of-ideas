@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- BASIC SEO -->
     <meta charset="UTF-8">
@@ -7,15 +8,18 @@
 
     <title>Forest of Ideas – Game & App Improvement Concepts</title>
 
-    <meta name="description" content="Explore Forest of Ideas – a futuristic collection of ideas to improve games, apps, and digital systems. MTG Arena improvements, UX concepts, and innovative features.">
+    <meta name="description"
+        content="Explore Forest of Ideas – a futuristic collection of ideas to improve games, apps, and digital systems. MTG Arena improvements, UX concepts, and innovative features.">
 
-    <meta name="keywords" content="game ideas, app ideas, MTG Arena improvements, UX ideas, feature ideas, software improvements, game design concepts">
+    <meta name="keywords"
+        content="game ideas, app ideas, MTG Arena improvements, UX ideas, feature ideas, software improvements, game design concepts">
 
     <meta name="author" content="Dawid Polakowski">
 
     <!-- OPEN GRAPH (for social media) -->
     <meta property="og:title" content="Forest of Ideas – Game & App Improvements">
-    <meta property="og:description" content="A futuristic portal of ideas for games, apps, and digital systems. Discover MTG Arena improvements and more.">
+    <meta property="og:description"
+        content="A futuristic portal of ideas for games, apps, and digital systems. Discover MTG Arena improvements and more.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://dawidpolakowski.github.io/forest-of-ideas/">
 
@@ -45,7 +49,13 @@
                 Each idea is designed to be practical, scalable, and impactful.
             </p>
         </section>
+        <section class="controls">
 
+            <input type="text" id="search-input" placeholder="Search ideas...">
+
+            <div id="tags-container" class="tags"></div>
+
+        </section>
         <section id="ideas-container" class="grid"></section>
     </main>
 
@@ -57,23 +67,78 @@
     <script src="data.js"></script>
 
     <!-- RENDER IDEAS -->
-    <script>
-        const container = document.getElementById("ideas-container");
+   <script src="data.js"></script>
 
-        ideas.forEach(idea => {
-            const card = document.createElement("a");
-            card.href = idea.file;
-            card.className = "card";
+<script>
+    const container = document.getElementById("ideas-container");
+    const searchInput = document.getElementById("search-input");
+    const tagsContainer = document.getElementById("tags-container");
 
-            card.innerHTML = `
-                <h3>${idea.title}</h3>
-                <p class="category">${idea.category}</p>
-                <p class="tags">${idea.tags.join(", ")}</p>
-            `;
+    let selectedTag = null;
 
-            container.appendChild(card);
+    // Extract unique tags
+    const allTags = [...new Set(ideas.flatMap(i => i.tags))];
+
+    // Render tags
+    allTags.forEach(tag => {
+        const btn = document.createElement("button");
+        btn.innerText = tag;
+        btn.className = "tag-btn";
+
+        btn.onclick = () => {
+            selectedTag = selectedTag === tag ? null : tag;
+            renderIdeas();
+            updateActiveTag();
+        };
+
+        tagsContainer.appendChild(btn);
+    });
+
+    function updateActiveTag() {
+        document.querySelectorAll(".tag-btn").forEach(btn => {
+            btn.classList.remove("active");
+            if (btn.innerText === selectedTag) {
+                btn.classList.add("active");
+            }
         });
-    </script>
+    }
+
+    function renderIdeas() {
+        const search = searchInput.value.toLowerCase();
+
+        container.innerHTML = "";
+
+        ideas
+            .filter(idea => {
+                const matchesSearch =
+                    idea.title.toLowerCase().includes(search) ||
+                    idea.tags.join(" ").toLowerCase().includes(search);
+
+                const matchesTag =
+                    !selectedTag || idea.tags.includes(selectedTag);
+
+                return matchesSearch && matchesTag;
+            })
+            .forEach(idea => {
+                const card = document.createElement("a");
+                card.href = idea.file;
+                card.className = "card";
+
+                card.innerHTML = `
+                    <h3>${idea.title}</h3>
+                    <p class="category">${idea.category}</p>
+                    <p class="tags">${idea.tags.join(", ")}</p>
+                `;
+
+                container.appendChild(card);
+            });
+    }
+
+    searchInput.addEventListener("input", renderIdeas);
+
+    renderIdeas();
+</script>
 
 </body>
+
 </html>

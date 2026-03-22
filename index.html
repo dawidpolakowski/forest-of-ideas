@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forest of Ideas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <h1 class="title">🌲 Forest of Ideas</h1>
+
+    <div id="ideas-container" class="grid"></div>
+
+    <script src="data.js"></script>
+    <script>
+        const container = document.getElementById("ideas-container");
+
+        ideas.forEach(idea => {
+            const card = document.createElement("a");
+            card.href = idea.file;
+            card.className = "card";
+
+            card.innerHTML = `
+                <h2>${idea.title}</h2>
+                <p>${idea.category}</p>
+            `;
+
+            container.appendChild(card);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,68 +1,48 @@
+/* === GLOBAL === */
 body {
-    background: #0a0a0a;
-    color: #eaeaea;
-    font-family: Arial, sans-serif;
     margin: 0;
-    padding: 20px;
+    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at top, #0f172a, #020617);
+    color: #e2e8f0;
 }
 
-.title {
+/* === HERO === */
+.hero {
     text-align: center;
-    color: #00ffcc;
+    padding: 60px 20px;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+.hero h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff, 0 0 30px #00ffff;
 }
 
-.card {
-    display: block;
-    padding: 20px;
-    border: 1px solid #00ffcc;
-    border-radius: 10px;
-    text-decoration: none;
-    color: white;
-    transition: 0.3s;
+.subtitle {
+    color: #94a3b8;
 }
 
-.card:hover {
-    background: #00ffcc;
-    color: black;
-    box-shadow: 0 0 15px #00ffcc;
-}
-
-.container {
-    max-width: 800px;
-    margin: auto;
-}
-
-.back {
-    color: #00ffcc;
-    text-decoration: none;
-}
-
-.section {
-    margin-top: 20px;
-}
-
+/* === CONTROLS === */
 .controls {
-    margin-bottom: 30px;
     text-align: center;
+    margin: 30px 0;
 }
 
 #search-input {
-    padding: 10px;
-    width: 250px;
-    border-radius: 8px;
-    border: 1px solid #00ffcc;
-    background: black;
-    color: white;
-    margin-bottom: 15px;
+    padding: 12px;
+    width: 280px;
+    border-radius: 10px;
+    border: 1px solid #00ffff;
+    background: #020617;
+    color: #00ffff;
+    outline: none;
+    box-shadow: 0 0 10px rgba(0,255,255,0.3);
 }
 
+/* === TAGS === */
 .tags {
+    margin-top: 15px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -70,21 +50,109 @@ body {
 }
 
 .tag-btn {
-    padding: 6px 12px;
-    border: 1px solid #00ffcc;
+    padding: 6px 14px;
+    border: 1px solid #00ffff;
     background: transparent;
-    color: #00ffcc;
+    color: #00ffff;
     border-radius: 20px;
     cursor: pointer;
     transition: 0.3s;
 }
 
 .tag-btn:hover {
-    background: #00ffcc;
+    background: #00ffff;
     color: black;
+    box-shadow: 0 0 10px #00ffff;
 }
 
 .tag-btn.active {
-    background: #00ffcc;
+    background: #ff00ff;
+    border-color: #ff00ff;
     color: black;
+    box-shadow: 0 0 12px #ff00ff;
+}
+
+/* === GRID === */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* === CARD === */
+.card {
+    position: relative;
+    display: block;
+    padding: 20px;
+    border-radius: 15px;
+    text-decoration: none;
+    color: white;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(0,255,255,0.2);
+    backdrop-filter: blur(10px);
+    transition: 0.3s;
+    overflow: hidden;
+    animation: glowPulse 4s infinite alternate;
+
+}
+
+@keyframes glowPulse {
+    from {
+        box-shadow: 0 0 5px rgba(0,255,255,0.2);
+    }
+    to {
+        box-shadow: 0 0 25px rgba(255,0,255,0.4);
+    }
+}
+
+/* glowing border effect */
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 15px;
+    padding: 1px;
+    background: linear-gradient(120deg, #00ffff, #ff00ff);
+    -webkit-mask: 
+        linear-gradient(#000 0 0) content-box, 
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 0 20px rgba(0,255,255,0.4);
+}
+
+.card h3 {
+    color: #00ffff;
+}
+
+.category {
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+.tags {
+    font-size: 0.8rem;
+    color: #ff00ff;
+}
+
+/* === FOOTER === */
+.footer {
+    text-align: center;
+    padding: 30px;
+    color: #64748b;
+}
+
+/* === SCROLLBAR === */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(#00ffff, #ff00ff);
+    border-radius: 10px;
 }

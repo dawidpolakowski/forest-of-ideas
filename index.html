@@ -1,18 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- BASIC SEO -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forest of Ideas</title>
+
+    <title>Forest of Ideas – Game & App Improvement Concepts</title>
+
+    <meta name="description" content="Explore Forest of Ideas – a futuristic collection of ideas to improve games, apps, and digital systems. MTG Arena improvements, UX concepts, and innovative features.">
+
+    <meta name="keywords" content="game ideas, app ideas, MTG Arena improvements, UX ideas, feature ideas, software improvements, game design concepts">
+
+    <meta name="author" content="Dawid Polakowski">
+
+    <!-- OPEN GRAPH (for social media) -->
+    <meta property="og:title" content="Forest of Ideas – Game & App Improvements">
+    <meta property="og:description" content="A futuristic portal of ideas for games, apps, and digital systems. Discover MTG Arena improvements and more.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dawidpolakowski.github.io/forest-of-ideas/">
+
+    <!-- TWITTER -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Forest of Ideas">
+    <meta name="twitter:description" content="Ideas to improve games, apps and systems.">
+
+    <!-- STYLES -->
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-    <h1 class="title">🌲 Forest of Ideas</h1>
+    <header class="hero">
+        <h1>🌲 Forest of Ideas</h1>
+        <p class="subtitle">
+            A growing collection of ideas to improve games, applications, and digital systems.
+        </p>
+    </header>
 
-    <div id="ideas-container" class="grid"></div>
+    <main>
+        <section class="intro">
+            <h2>Explore Ideas</h2>
+            <p>
+                Discover structured concepts focused on improving gameplay, UX, and digital experiences.
+                Each idea is designed to be practical, scalable, and impactful.
+            </p>
+        </section>
 
+        <section id="ideas-container" class="grid"></section>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 Forest of Ideas • Built by Dawid Polakowski</p>
+    </footer>
+
+    <!-- DATA -->
     <script src="data.js"></script>
+
+    <!-- RENDER IDEAS -->
     <script>
         const container = document.getElementById("ideas-container");
 
@@ -22,8 +66,9 @@
             card.className = "card";
 
             card.innerHTML = `
-                <h2>${idea.title}</h2>
-                <p>${idea.category}</p>
+                <h3>${idea.title}</h3>
+                <p class="category">${idea.category}</p>
+                <p class="tags">${idea.tags.join(", ")}</p>
             `;
 
             container.appendChild(card);

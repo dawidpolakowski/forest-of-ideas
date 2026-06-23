@@ -3,12 +3,14 @@ class IdeasPortal {
         this.container = document.getElementById("ideas-container");
         this.searchInput = document.getElementById("search-input");
         this.tagsContainer = document.getElementById("tags-container");
+        this.resultCount = document.getElementById("result-count");
         this.selectedTag = null;
 
         this.init();
     }
 
     init() {
+        this.updateStats();
         this.renderTags();
         this.renderIdeas();
         this.attachEventListeners();
@@ -18,12 +20,30 @@ class IdeasPortal {
         this.searchInput.addEventListener("input", () => this.renderIdeas());
     }
 
+    updateStats() {
+        const totalIdeas = ideas.length;
+        const categories = [...new Set(ideas.map(idea => idea.category))];
+        const tags = [...new Set(ideas.flatMap(idea => idea.tags))];
+        const gamesCount = ideas.filter(idea => idea.category === "Games").length;
+
+        document.getElementById("total-ideas").textContent = totalIdeas;
+        document.getElementById("category-count").textContent = categories.length;
+        document.getElementById("tag-count").textContent = tags.length;
+
+        const gamesCountEl = document.getElementById("games-count");
+        if (gamesCountEl) {
+            gamesCountEl.textContent = gamesCount;
+        }
+    }
+
     renderTags() {
-        const allTags = [...new Set(ideas.flatMap(idea => idea.tags))];
+        const allTags = [...new Set(ideas.flatMap(idea => idea.tags))].sort();
+
+        this.tagsContainer.innerHTML = "";
 
         allTags.forEach(tag => {
             const btn = document.createElement("button");
-            btn.className = "tag-btn";
+            btn.className = "tag";
             btn.textContent = tag;
 
             btn.addEventListener("click", () => {
@@ -37,7 +57,7 @@ class IdeasPortal {
     }
 
     updateActiveTag() {
-        document.querySelectorAll(".tag-btn").forEach(btn => {
+        document.querySelectorAll(".tags-container .tag").forEach(btn => {
             btn.classList.toggle("active", btn.textContent === this.selectedTag);
         });
     }
@@ -55,10 +75,12 @@ class IdeasPortal {
             return matchesSearch && matchesTag;
         });
 
+        this.resultCount.textContent = `${filtered.length} ${filtered.length === 1 ? 'result' : 'results'}`;
+
         this.container.innerHTML = "";
 
         if (filtered.length === 0) {
-            this.container.innerHTML = '<div class="no-results">No ideas found</div>';
+            this.container.innerHTML = '<div class="no-results">No ideas match your search</div>';
             return;
         }
 
@@ -68,12 +90,13 @@ class IdeasPortal {
             card.className = "idea-card";
 
             card.innerHTML = `
-                <div class="card-header">
+                <div class="idea-card-link">
+                    <span class="card-category">${idea.category}</span>
                     <h3>${idea.title}</h3>
-                </div>
-                <div class="card-body">
-                    <p class="category">${idea.category}</p>
-                    <div class="tags">${idea.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}</div>
+                    <p class="idea-card-description">${idea.description || ''}</p>
+                    <div class="idea-card-footer">
+                        <div class="tags">${idea.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}</div>
+                    </div>
                 </div>
             `;
 

@@ -5,25 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Forest of Ideas – Game & App Improvement Concepts</title>
+  <title>Game Ideas – Forest of Ideas</title>
 
   <meta name="description"
-    content="Explore Forest of Ideas – a curated collection of ideas to improve games, apps, and digital systems. MTG Arena improvements, No Man's Sky concepts, and innovative features.">
-
-  <meta name="keywords"
-    content="game ideas, app ideas, MTG Arena improvements, No Man's Sky improvements, UX ideas, feature ideas, software improvements, game design concepts">
+    content="Game improvement ideas including MTG Arena and No Man's Sky concepts. Explore innovative gameplay features and improvements.">
 
   <meta name="author" content="Dawid Polakowski">
-
-  <meta property="og:title" content="Forest of Ideas – Game & App Improvements">
-  <meta property="og:description"
-    content="A curated portal of ideas for games, apps, and digital systems. Discover improvement concepts and innovations.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://dawidpolakowski.github.io/forest-of-ideas/">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Forest of Ideas">
-  <meta name="twitter:description" content="Ideas to improve games, apps and systems.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,7 +47,7 @@
       </a>
 
       <nav class="nav-links" aria-label="Primary">
-        <a href="index.html">Ideas</a>
+        <a href="index.html">← All Ideas</a>
         <button id="theme-toggle" class="theme-toggle" type="button" onclick="__toggleTheme()"
           aria-label="Toggle dark mode" title="Toggle theme">
           <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -79,56 +66,26 @@
 
   <main>
     <section class="hero">
-      <p class="eyebrow">Ideas · curated concepts</p>
-      <h1>Forest of Ideas</h1>
+      <p class="eyebrow">Game Ideas</p>
+      <h1>Game Improvements</h1>
       <p class="hero-subtitle">
-        A growing collection of ideas to improve games, applications, and digital systems. Structured concepts
-        focused on gameplay, UX, and innovative features.
+        Innovative concepts and features designed to improve gameplay, UI/UX, and player experience across multiple game titles.
       </p>
-
-      <div class="stats" aria-label="Ideas statistics">
-        <div class="stat">
-          <span class="num" id="total-ideas">0</span>
-          <span class="lbl">Total ideas</span>
-        </div>
-        <div class="stat">
-          <span class="num" id="category-count">0</span>
-          <span class="lbl">Categories</span>
-        </div>
-        <div class="stat">
-          <span class="num" id="tag-count">0</span>
-          <span class="lbl">Tags</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="categories-section">
-      <div class="section-heading">
-        <h2>Browse by Category</h2>
-      </div>
-      <div class="categories-grid">
-        <a href="games.html" class="category-card">
-          <h3>Games</h3>
-          <p>Game improvement ideas</p>
-          <span class="count" id="games-count">0</span>
-        </a>
-      </div>
     </section>
 
     <section class="toolbar" aria-label="Ideas filters">
       <label class="search-field">
         <span>Search ideas</span>
-        <input id="search-input" type="search" placeholder="Search by title or tags" autocomplete="off">
+        <input id="search-input" type="search" placeholder="Search by title or game name" autocomplete="off">
       </label>
     </section>
 
     <section class="content-section">
       <div class="section-heading">
-        <h2>Ideas</h2>
+        <h2>Game Ideas</h2>
         <span id="result-count">Loading…</span>
       </div>
 
-      <div id="tags-container" class="tags-container"></div>
       <div id="ideas-container" class="ideas-grid" aria-live="polite"></div>
     </section>
   </main>
@@ -145,7 +102,69 @@
   </footer>
 
   <script src="data.js"></script>
-  <script src="app.js"></script>
+  <script>
+    class GameIdeasPage {
+      constructor() {
+        this.container = document.getElementById("ideas-container");
+        this.searchInput = document.getElementById("search-input");
+        this.resultCount = document.getElementById("result-count");
+
+        this.init();
+      }
+
+      init() {
+        this.renderIdeas();
+        this.attachEventListeners();
+      }
+
+      attachEventListeners() {
+        this.searchInput.addEventListener("input", () => this.renderIdeas());
+      }
+
+      renderIdeas() {
+        const searchTerm = this.searchInput.value.toLowerCase();
+
+        const filtered = ideas.filter(idea => {
+          return idea.category === "Games" && (
+            idea.title.toLowerCase().includes(searchTerm) ||
+            idea.tags.join(" ").toLowerCase().includes(searchTerm)
+          );
+        });
+
+        this.resultCount.textContent = `${filtered.length} ${filtered.length === 1 ? 'result' : 'results'}`;
+
+        this.container.innerHTML = "";
+
+        if (filtered.length === 0) {
+          this.container.innerHTML = '<div class="no-results">No game ideas match your search</div>';
+          return;
+        }
+
+        filtered.forEach(idea => {
+          const card = document.createElement("a");
+          card.href = idea.file;
+          card.className = "idea-card";
+
+          card.innerHTML = `
+              <div class="idea-card-link">
+                  <span class="card-category">${idea.category}</span>
+                  <h3>${idea.title}</h3>
+                  <p class="idea-card-description">${idea.description || ''}</p>
+                  <div class="idea-card-footer">
+                      <div class="tags">${idea.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}</div>
+                  </div>
+              </div>
+          `;
+
+          this.container.appendChild(card);
+        });
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      new GameIdeasPage();
+    });
+  </script>
 
 </body>
 

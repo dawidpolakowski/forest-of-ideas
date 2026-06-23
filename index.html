@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-    <!-- BASIC SEO -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -16,129 +15,44 @@
 
     <meta name="author" content="Dawid Polakowski">
 
-    <!-- OPEN GRAPH (for social media) -->
     <meta property="og:title" content="Forest of Ideas – Game & App Improvements">
     <meta property="og:description"
         content="A futuristic portal of ideas for games, apps, and digital systems. Discover MTG Arena improvements and more.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://dawidpolakowski.github.io/forest-of-ideas/">
 
-    <!-- TWITTER -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Forest of Ideas">
     <meta name="twitter:description" content="Ideas to improve games, apps and systems.">
 
-    <!-- STYLES -->
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
     <header class="hero">
-        <h1>Forest of Ideas</h1>
-        <p class="subtitle">
-            A growing collection of ideas to improve games, applications, and digital systems.
-        </p>
+        <div class="hero-content">
+            <h1>FOREST OF IDEAS</h1>
+            <p class="subtitle">A growing collection of ideas to improve games, applications, and digital systems.</p>
+        </div>
     </header>
 
     <main>
-        <section class="intro">
-            <h2>Explore Ideas</h2>
-            <p>
-                Discover structured concepts focused on improving gameplay, UX, and digital experiences.
-                Each idea is designed to be practical, scalable, and impactful.
-            </p>
-        </section>
         <section class="controls">
-
-            <input type="text" id="search-input" placeholder="Search ideas...">
-
-            <div id="tags-container" class="tags"></div>
-
+            <input type="text" id="search-input" placeholder="SEARCH IDEAS..." class="search-input">
+            <div id="tags-container" class="tags-container"></div>
         </section>
-        <section id="ideas-container" class="grid"></section>
+
+        <section id="ideas-container" class="ideas-grid"></section>
     </main>
 
     <footer class="footer">
-        <p>© 2026 Forest of Ideas • Built by Dawid Polakowski</p>
+        <p>© 2026 Forest of Ideas</p>
     </footer>
 
-    <!-- DATA -->
     <script src="data.js"></script>
-
-    <!-- RENDER IDEAS -->
-   <script src="data.js"></script>
-
-<script>
-    const container = document.getElementById("ideas-container");
-    const searchInput = document.getElementById("search-input");
-    const tagsContainer = document.getElementById("tags-container");
-
-    let selectedTag = null;
-
-    // Extract unique tags
-    const allTags = [...new Set(ideas.flatMap(i => i.tags))];
-
-    // Render tags
-    allTags.forEach(tag => {
-        const btn = document.createElement("button");
-        btn.innerText = tag;
-        btn.className = "tag-btn";
-
-        btn.onclick = () => {
-            selectedTag = selectedTag === tag ? null : tag;
-            renderIdeas();
-            updateActiveTag();
-        };
-
-        tagsContainer.appendChild(btn);
-    });
-
-    function updateActiveTag() {
-        document.querySelectorAll(".tag-btn").forEach(btn => {
-            btn.classList.remove("active");
-            if (btn.innerText === selectedTag) {
-                btn.classList.add("active");
-            }
-        });
-    }
-
-    function renderIdeas() {
-        const search = searchInput.value.toLowerCase();
-
-        container.innerHTML = "";
-
-        ideas
-            .filter(idea => {
-                const matchesSearch =
-                    idea.title.toLowerCase().includes(search) ||
-                    idea.tags.join(" ").toLowerCase().includes(search);
-
-                const matchesTag =
-                    !selectedTag || idea.tags.includes(selectedTag);
-
-                return matchesSearch && matchesTag;
-            })
-            .forEach(idea => {
-                const card = document.createElement("a");
-                card.href = idea.file;
-                card.className = "card";
-
-                card.innerHTML = `
-                    <h3>${idea.title}</h3>
-                    <p class="category">${idea.category}</p>
-                    <p class="tags">${idea.tags.join(", ")}</p>
-                `;
-
-                container.appendChild(card);
-            });
-    }
-
-    searchInput.addEventListener("input", renderIdeas);
-
-    renderIdeas();
-</script>
+    <script src="app.js"></script>
 
 </body>
 
